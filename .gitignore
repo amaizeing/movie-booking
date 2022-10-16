@@ -1,0 +1,16 @@
+.idea
+target/
+!**/src/main/**
+!**/src/test/**
+!**/src/target/**
+**/src/main/**/application.properties
+*.iml
+*.log
+*.class
+bin/
+.settings
+.project
+.classpath
+*.orig
+
+note.txt
