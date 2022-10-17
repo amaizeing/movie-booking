@@ -30,8 +30,7 @@ class ShowController {
      * @param date      date, if date is null then default value is today.
      * @return all shows of this theater group by movie.
      */
-    @GetMapping
-    @RequestMapping("/theater/{theaterId}")
+    @GetMapping("/theater/{theaterId}")
     WebShowsByTheater getShowsByTheater(@PathVariable final long theaterId,
             @RequestParam(required = false)
             @DateTimeFormat(pattern = "yyyy-MM-dd") final LocalDate date) {
@@ -49,8 +48,7 @@ class ShowController {
      * @param date    date, if date is null then default value is today.
      * @return all shows of this movie group by theater.
      */
-    @GetMapping
-    @RequestMapping("/movie/{movieId}")
+    @GetMapping("/movie/{movieId}")
     WebShowsByMovie getShowsByMovie(@PathVariable final long movieId,
             @RequestParam(required = false)
             @DateTimeFormat(pattern = "yyyy-MM-dd") final LocalDate date) {

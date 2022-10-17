@@ -4,14 +4,13 @@ import com.datbv.booking.event.EventFactory;
 import com.datbv.booking.event.EventProducer;
 import com.datbv.booking.event.IEvent;
 import com.datbv.booking.event.OnSuccessProduceWatcher;
+import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
-
-import java.util.Optional;
 
 @Slf4j
 public abstract class KafkaProducer<T extends IEvent> implements EventProducer<T> {
@@ -23,7 +22,8 @@ public abstract class KafkaProducer<T extends IEvent> implements EventProducer<T
     public void produce(final EventFactory<T> eventFactory) {
         val future = kafkaTemplate()
                 .send(eventFactory.getTopic(), eventFactory.getEvent());
-        log.info("Produce event...");
+        log.info("Producing event: {} to: {}", eventFactory.getEvent().getClass(),
+                eventFactory.getTopic());
         if (eventFactory.hasWatcher()) {
             addCallback(eventFactory, future);
         }
