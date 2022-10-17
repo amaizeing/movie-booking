@@ -20,7 +20,7 @@ $ docker-compose up
 
 #### 2) Build application:
 ```shell
-$ mvn clean install -U spring-boot::repackage -DskipTests
+$ ./mvnw clean install -U spring-boot::repackage -DskipTests
 ```
 
 #### 3) Run application:
