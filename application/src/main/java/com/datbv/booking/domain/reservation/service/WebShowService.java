@@ -9,6 +9,7 @@ import com.datbv.booking.domain.reservation.usecase.request.CreateShowRequest;
 import com.datbv.booking.domain.reservation.web.mapper.WebShowsByMovieMapper;
 import com.datbv.booking.domain.reservation.web.mapper.WebShowsByTheaterMapper;
 import com.datbv.booking.domain.reservation.web.message.request.WebShowFilter;
+import com.datbv.booking.domain.reservation.web.message.response.web.WebShow;
 import com.datbv.booking.domain.reservation.web.message.response.web.WebShowsByMovie;
 import com.datbv.booking.domain.reservation.web.message.response.web.WebShowsByTheater;
 import lombok.RequiredArgsConstructor;
@@ -45,6 +46,12 @@ public class WebShowService {
                 .orElseThrow(() -> new NotFoundException("Movie not found by id:",
                         webShowFilter.getMovieId()));
         return webShowsByMovieMapper.mapToWebShowsByMovie(movie, shows);
+    }
+
+    @Transactional
+    public WebShow getShowDetail(final long showId) {
+        val show = queryShowUseCase.getShowById(showId);
+        return null;
     }
 
     @Transactional

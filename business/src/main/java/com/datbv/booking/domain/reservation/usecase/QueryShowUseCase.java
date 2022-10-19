@@ -26,6 +26,10 @@ public class QueryShowUseCase {
     private final MovieServiceAdapter movieServiceAdapter;
     private final TheaterServiceAdapter theaterServiceAdapter;
 
+    public ShowAggregate getShowById(final long id) {
+        return null;
+    }
+
     public List<ShowAggregate> getAllAvailableShows(final ShowFilter filter) {
         val shows = showQuery.findAllAvailableShows(filter);
         if (CollectionUtil.isEmpty(shows)) {

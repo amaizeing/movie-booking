@@ -1,5 +1,6 @@
 package com.datbv.booking.domain.reservation.entity;
 
+import com.datbv.booking.domain.theater.entity.PhysicalSeatEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,6 +22,7 @@ public class VirtualSeatEntity {
     private long physicalSeatId;
     private String seatCode;
     private Status status;
+    private PhysicalSeatEntity.Type type;
 
     public enum Status {
         AVAILABLE, BOOKED

@@ -3,6 +3,7 @@ package com.datbv.booking.domain.reservation.web.message.response.web;
 import com.datbv.booking.domain.movie.entity.MovieEntity;
 import com.datbv.booking.domain.reservation.entity.ShowEntity;
 import com.datbv.booking.domain.theater.entity.RoomEntity;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.ZonedDateTime;
 import java.util.LinkedList;
 import java.util.List;
@@ -65,6 +66,7 @@ public class WebShowsByTheater {
         private long id;
         private Room room;
         private ShowEntity.Type type;
+        @JsonFormat(pattern = "yyyy-MM-dd HH:mm z")
         private ZonedDateTime startTime;
 
     }

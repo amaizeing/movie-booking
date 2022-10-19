@@ -2,10 +2,16 @@ package com.datbv.booking.domain.reservation.web.controller.api;
 
 import com.datbv.booking.domain.reservation.service.WebShowService;
 import com.datbv.booking.domain.reservation.web.message.request.WebShowFilter;
+import com.datbv.booking.domain.reservation.web.message.response.web.WebShow;
 import com.datbv.booking.domain.reservation.web.message.response.web.WebShowsByMovie;
 import com.datbv.booking.domain.reservation.web.message.response.web.WebShowsByTheater;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.LocalDate;
+import javax.annotation.PostConstruct;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -57,6 +63,12 @@ class ShowController {
                 .date(date == null ? LocalDate.now() : date)
                 .build();
         return webShowService.getWebShowsByMovie(filter);
+    }
+
+    @GetMapping("/{showId}")
+    WebShow getShowDetail(@PathVariable final long showId) {
+
+        return null;
     }
 
 }

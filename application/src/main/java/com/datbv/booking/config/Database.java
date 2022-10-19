@@ -187,7 +187,7 @@ public class Database {
                             public final String PHYSICAL_SEAT_ID = "physical_seat_id";
                             public final String SEAT_CODE = "seat_code";
                             public final String STATUS = "status";
-
+                            public final String TYPE = "type";
                         }
 
                     }

@@ -1,6 +1,7 @@
 package com.datbv.booking.domain.reservation.persistence.entity;
 
 import com.datbv.booking.domain.reservation.entity.VirtualSeatEntity;
+import com.datbv.booking.domain.theater.entity.PhysicalSeatEntity;
 import com.datbv.booking.persistence.entity.Auditable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -63,5 +64,9 @@ public class JpaVirtualSeat extends Auditable {
     @Enumerated(EnumType.STRING)
     @Column(name = VirtualSeat.Column.STATUS, length = 32)
     private VirtualSeatEntity.Status status = VirtualSeatEntity.Status.AVAILABLE;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = VirtualSeat.Column.TYPE, length = 64)
+    private PhysicalSeatEntity.Type type;
 
 }

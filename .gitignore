@@ -14,3 +14,4 @@ bin/
 *.orig
 
 note.txt
+.DS_Store

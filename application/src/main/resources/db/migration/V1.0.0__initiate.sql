@@ -90,6 +90,7 @@ create table scm_reservation.virtual_seat
     physical_seat_id    bigint                          not null,
     seat_code           varchar(64)                     not null,
     status              varchar(32)                     not null,
+    type                varchar(64)                     not null,
     created_time        timestamp with time zone        not null,
     updated_time        timestamp with time zone        not null
 );
