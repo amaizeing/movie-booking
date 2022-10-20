@@ -9,7 +9,8 @@ import com.datbv.booking.adapter.impl.InternalUserServiceAdapter;
 import com.datbv.booking.domain.movie.usecase.QueryMovieUseCase;
 import com.datbv.booking.domain.theater.usecase.QueryRoomUseCase;
 import com.datbv.booking.domain.theater.usecase.QueryTheaterUseCase;
-import com.datbv.booking.domain.user.usecase.ValidateUserUseCase;
+import com.datbv.booking.domain.user.usecase.CreateUserUserCase;
+import com.datbv.booking.domain.user.usecase.GetUserUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,8 +32,9 @@ class AdapterDeclaration {
     }
 
     @Bean
-    UserServiceAdapter userServiceAdapter(final ValidateUserUseCase validateUserUseCase) {
-        return new InternalUserServiceAdapter(validateUserUseCase);
+    UserServiceAdapter userServiceAdapter(final GetUserUseCase getUserUseCase,
+            final CreateUserUserCase createUserUserCase) {
+        return new InternalUserServiceAdapter(getUserUseCase, createUserUserCase);
     }
 
 }

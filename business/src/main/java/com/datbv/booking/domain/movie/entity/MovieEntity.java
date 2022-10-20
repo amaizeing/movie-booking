@@ -1,14 +1,15 @@
 package com.datbv.booking.domain.movie.entity;
 
 import com.datbv.booking.common.Identifier;
-import java.time.Duration;
-import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+
+import java.time.Duration;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -32,6 +33,7 @@ public class MovieEntity implements Identifier {
         PG_13,
         C13,
         R,
+        C16,
         NC_17,
         C18
     }

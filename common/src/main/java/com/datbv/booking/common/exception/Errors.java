@@ -19,4 +19,7 @@ public class Errors {
     public final BusinessError INTERNAL_SERVER_ERROR
             = new BusinessError(500, "Internal server error", HttpStatusCode.INTERNAL_SERVER_ERROR);
 
+    public final BusinessError DATA_INCONSISTENCY
+            = new BusinessError(500, "Data inconsistency", HttpStatusCode.INTERNAL_SERVER_ERROR);
+
 }

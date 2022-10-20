@@ -2,6 +2,8 @@ package com.datbv.booking.domain.reservation.usecase;
 
 import com.datbv.booking.adapter.MovieServiceAdapter;
 import com.datbv.booking.adapter.TheaterServiceAdapter;
+import com.datbv.booking.common.exception.ApplicationException;
+import com.datbv.booking.common.exception.Errors;
 import com.datbv.booking.common.util.CollectionUtil;
 import com.datbv.booking.domain.movie.entity.MovieEntity;
 import com.datbv.booking.domain.reservation.entity.ShowEntity;
@@ -14,6 +16,7 @@ import com.datbv.booking.domain.theater.entity.RoomEntity;
 import com.datbv.booking.domain.theater.entity.TheaterEntity;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 
@@ -26,8 +29,34 @@ public class QueryShowUseCase {
     private final MovieServiceAdapter movieServiceAdapter;
     private final TheaterServiceAdapter theaterServiceAdapter;
 
-    public ShowAggregate getShowById(final long id) {
-        return null;
+    public Optional<ShowAggregate> getShowById(final long id) {
+        val showOpt = showQuery.findById(id);
+        if (showOpt.isEmpty()) {
+            return Optional.empty();
+        }
+
+        val show = showOpt.get();
+        val movie = movieServiceAdapter.getMovieById(show.getMovieId())
+                .orElseThrow(() -> new ApplicationException(Errors.DATA_INCONSISTENCY));
+        val room = theaterServiceAdapter.getRoomById(show.getRoomId())
+                .orElseThrow(() -> new ApplicationException(Errors.DATA_INCONSISTENCY));
+        val theater = theaterServiceAdapter.getTheaterById(show.getTheaterId())
+                .orElseThrow(() -> new ApplicationException(Errors.DATA_INCONSISTENCY));
+        val seats = virtualSeatQuery.findByShowId(show.getId());
+
+        val showAggregate = ShowAggregate.builder()
+                .id(show.getId())
+                .theater(theater)
+                .room(room)
+                .movie(movie)
+                .seats(seats)
+                .description(show.getDescription())
+                .type(show.getType())
+                .startTime(show.getStartTime())
+                .endTime(show.getEndTime())
+                .build();
+
+        return Optional.of(showAggregate);
     }
 
     public List<ShowAggregate> getAllAvailableShows(final ShowFilter filter) {

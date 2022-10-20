@@ -22,9 +22,9 @@ public class UserDataGateway implements QueryUserDataGateway, MutateUserDataGate
     private final PersistenceUserMapper userMapper;
 
     @Override
-    public void createUser(final UserEntity userEntity) {
+    public UserEntity createUser(final UserEntity userEntity) {
         val jpaUser = userMapper.mapToJpaUser(userEntity);
-        userRepository.save(jpaUser);
+        return userMapper.mapToUserEntity(userRepository.save(jpaUser));
     }
 
     @Override

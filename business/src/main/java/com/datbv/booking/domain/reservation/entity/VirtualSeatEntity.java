@@ -28,4 +28,8 @@ public class VirtualSeatEntity {
         AVAILABLE, BOOKED
     }
 
+    public boolean isAvailable() {
+        return status == Status.AVAILABLE;
+    }
+
 }

@@ -1,16 +1,3 @@
-----------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------
-
 -- INSERT SHOW FOR THEATER 1
 
 -- INSERT SHOW FOR THEATER 1 - ROOM 001
@@ -387,3 +374,29 @@ VALUES(3, 21, 1, '', 'NORMAL_SHOW', '2022-10-20 19:15:00 +07:00', '2022-10-20 22
 INSERT INTO scm_reservation.platform_show(theater_id, room_id, movie_id,
     description, type, start_time, end_time, created_time, updated_time)
 VALUES(3, 21, 1, '', 'NORMAL_SHOW', '2022-10-20 22:15:00 +07:00', '2022-10-21 01:00:00 +07:00', now(), now());
+
+-- Insert into virtual seat for each show
+do
+$$
+    declare
+        show record;
+        physical_seat record;
+    begin
+        for show in select s.id show_id, s.room_id, m.name movie_name, t.name theater_name, s.start_time
+                 from scm_reservation.platform_show s
+                 join scm_movie.movie m on s.movie_id = m.id
+                 join scm_theater.theater t on s.theater_id = t.id
+                 order by s.id
+            loop
+                for physical_seat in select * from scm_theater.physical_seat ps
+                                  where ps.room_id = show.room_id
+                                  order by ps.id
+                    loop
+                        insert into scm_reservation.virtual_seat(show_id, room_id, physical_seat_id, seat_code,
+                                                                 status, type, created_time, updated_time)
+                        values(show.show_id, show.room_id, physical_seat.id, physical_seat.seat_code,
+                               'AVAILABLE', physical_seat.type, now(), now());
+                    end loop;
+            end loop;
+    end;
+$$;

@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @DataGateway
@@ -25,6 +26,11 @@ public class ShowDataGateway implements QueryShowDataGateway {
     public List<ShowEntity> findAllAvailableShows(final ShowFilter filter) {
         val shows = showRepository.findAllAvailableShows(filter);
         return showMapper.mapToShowEntities(shows);
+    }
+
+    @Override
+    public Optional<ShowEntity> findById(long id) {
+        return showRepository.findById(id).map(showMapper::mapToShowEntity);
     }
 
 }

@@ -2,12 +2,15 @@ package com.datbv.booking.config;
 
 import com.datbv.booking.adapter.MovieServiceAdapter;
 import com.datbv.booking.adapter.TheaterServiceAdapter;
+import com.datbv.booking.adapter.UserServiceAdapter;
 import com.datbv.booking.domain.movie.repository.query.QueryMovieDataGateway;
 import com.datbv.booking.domain.movie.usecase.QueryMovieUseCase;
+import com.datbv.booking.domain.reservation.repository.command.MutateReservationDataGateway;
 import com.datbv.booking.domain.reservation.repository.query.QueryShowDataGateway;
 import com.datbv.booking.domain.reservation.repository.query.QueryVirtualSeatDataGateway;
 import com.datbv.booking.domain.reservation.usecase.CreateShowUseCase;
 import com.datbv.booking.domain.reservation.usecase.QueryShowUseCase;
+import com.datbv.booking.domain.reservation.usecase.ReserveBookingUseCase;
 import com.datbv.booking.domain.theater.repository.query.QueryRoomDataGateway;
 import com.datbv.booking.domain.theater.repository.query.QuerySeatDataGateway;
 import com.datbv.booking.domain.theater.repository.query.QueryTheaterDataGateway;
@@ -16,7 +19,8 @@ import com.datbv.booking.domain.theater.usecase.QueryTheaterUseCase;
 import com.datbv.booking.domain.user.out.UserCreatedEventProducer;
 import com.datbv.booking.domain.user.repository.command.MutateUserDataGateway;
 import com.datbv.booking.domain.user.repository.query.QueryUserDataGateway;
-import com.datbv.booking.domain.user.usecase.ValidateUserUseCase;
+import com.datbv.booking.domain.user.usecase.CreateUserUserCase;
+import com.datbv.booking.domain.user.usecase.GetUserUseCase;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -31,14 +35,14 @@ class UseCaseDeclaration {
     static class UserDomain {
 
         @Bean
-        ValidateUserUseCase validateUserUseCase(
-                final QueryUserDataGateway queryUserDataGateway,
-                final MutateUserDataGateway mutateUserDataGateway,
+        GetUserUseCase getUserUseCase(final QueryUserDataGateway queryUserDataGateway) {
+            return new GetUserUseCase(queryUserDataGateway);
+        }
+
+        @Bean
+        CreateUserUserCase createUserUserCase(final MutateUserDataGateway mutateUserDataGateway,
                 final UserCreatedEventProducer userCreatedEventProducer) {
-            return new ValidateUserUseCase(
-                    queryUserDataGateway,
-                    mutateUserDataGateway,
-                    userCreatedEventProducer);
+            return new CreateUserUserCase(mutateUserDataGateway, userCreatedEventProducer);
         }
 
     }
@@ -88,6 +92,18 @@ class UseCaseDeclaration {
                     queryVirtualSeatDataGateway,
                     movieServiceAdapter,
                     theaterServiceAdapter);
+        }
+
+        @Bean
+        ReserveBookingUseCase reserveBookingUseCase(
+                final QueryShowDataGateway queryShow,
+                final QueryVirtualSeatDataGateway queryVirtualSeat,
+                final MutateReservationDataGateway mutateReservation,
+                final UserServiceAdapter userServiceAdapter,
+                final MovieServiceAdapter movieServiceAdapter,
+                final TheaterServiceAdapter theaterServiceAdapter) {
+            return new ReserveBookingUseCase(queryShow, queryVirtualSeat, mutateReservation,
+                    userServiceAdapter, movieServiceAdapter, theaterServiceAdapter);
         }
 
         @Bean

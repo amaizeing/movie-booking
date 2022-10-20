@@ -2,21 +2,28 @@ package com.datbv.booking.domain.reservation.service;
 
 import com.datbv.booking.adapter.MovieServiceAdapter;
 import com.datbv.booking.adapter.TheaterServiceAdapter;
+import com.datbv.booking.common.exception.ApplicationException;
+import com.datbv.booking.common.exception.BusinessError;
 import com.datbv.booking.common.exception.NotFoundException;
+import com.datbv.booking.common.http.HttpStatusCode;
 import com.datbv.booking.domain.reservation.usecase.CreateShowUseCase;
 import com.datbv.booking.domain.reservation.usecase.QueryShowUseCase;
 import com.datbv.booking.domain.reservation.usecase.request.CreateShowRequest;
+import com.datbv.booking.domain.reservation.web.mapper.WebShowMapper;
 import com.datbv.booking.domain.reservation.web.mapper.WebShowsByMovieMapper;
 import com.datbv.booking.domain.reservation.web.mapper.WebShowsByTheaterMapper;
 import com.datbv.booking.domain.reservation.web.message.request.WebShowFilter;
 import com.datbv.booking.domain.reservation.web.message.response.web.WebShow;
 import com.datbv.booking.domain.reservation.web.message.response.web.WebShowsByMovie;
 import com.datbv.booking.domain.reservation.web.message.response.web.WebShowsByTheater;
+import java.time.ZonedDateTime;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class WebShowService {
@@ -27,6 +34,7 @@ public class WebShowService {
     private final MovieServiceAdapter movieServiceAdapter;
     private final TheaterServiceAdapter theaterServiceAdapter;
 
+    private final WebShowMapper webShowMapper;
     private final WebShowsByMovieMapper webShowsByMovieMapper;
     private final WebShowsByTheaterMapper webShowsByTheaterMapper;
 
@@ -50,8 +58,18 @@ public class WebShowService {
 
     @Transactional
     public WebShow getShowDetail(final long showId) {
-        val show = queryShowUseCase.getShowById(showId);
-        return null;
+        val show = queryShowUseCase.getShowById(showId)
+                .orElseThrow(() -> new NotFoundException("Show not found by id:", showId));
+
+        val now = ZonedDateTime.now();
+        val startTime = show.startTime();
+        if (now.plusMinutes(15).isAfter(startTime)) {
+            throw new ApplicationException(
+                    new BusinessError(400,
+                            "Show detail is only available before starting time 15 minutes",
+                            HttpStatusCode.BAD_REQUEST));
+        }
+        return webShowMapper.mapToWebShow(show);
     }
 
     @Transactional

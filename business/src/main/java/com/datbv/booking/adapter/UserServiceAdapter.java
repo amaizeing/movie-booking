@@ -1,10 +1,14 @@
 package com.datbv.booking.adapter;
 
-import com.datbv.booking.domain.user.usecase.message.ValidateUserResult;
-import com.datbv.booking.domain.user.usecase.message.ValidateUserRequest;
+import com.datbv.booking.domain.user.entity.UserEntity;
+import com.datbv.booking.domain.user.usecase.message.CreateUserRequest;
+
+import java.util.Optional;
 
 public interface UserServiceAdapter {
 
-    ValidateUserResult validateUser(final ValidateUserRequest request);
+    Optional<UserEntity> getUserByPhoneNumber(final String phoneNumber);
+
+    UserEntity createUser(final CreateUserRequest request);
 
 }

@@ -17,12 +17,12 @@ public class CreateShowUseCase {
 
     public void createShow(final CreateShowRequest request) {
         val movie = movieServiceAdapter.getMovieById(request.getMovieId())
-                .orElseThrow(() -> new NotFoundException("Movie not found by id:", request.getMovieId()));
+                .orElseThrow(() -> new NotFoundException("Movie not found by id:",
+                        request.getMovieId()));
 
         val room = theaterServiceAdapter.getRoomById(request.getRoomId())
-                .orElseThrow(() -> new NotFoundException("Room not found by id:", request.getRoomId()));
-
-
+                .orElseThrow(
+                        () -> new NotFoundException("Room not found by id:", request.getRoomId()));
 
     }
 
