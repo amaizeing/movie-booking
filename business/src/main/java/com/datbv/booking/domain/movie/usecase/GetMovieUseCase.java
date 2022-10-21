@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
-public class QueryMovieUseCase {
+public class GetMovieUseCase {
 
     private final QueryMovieDataGateway movieQuery;
 

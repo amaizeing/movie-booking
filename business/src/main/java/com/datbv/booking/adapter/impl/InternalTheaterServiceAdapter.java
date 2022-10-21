@@ -4,8 +4,8 @@ import com.datbv.booking.adapter.TheaterServiceAdapter;
 import com.datbv.booking.common.util.CollectionUtil;
 import com.datbv.booking.domain.theater.entity.RoomEntity;
 import com.datbv.booking.domain.theater.entity.TheaterEntity;
-import com.datbv.booking.domain.theater.usecase.QueryRoomUseCase;
-import com.datbv.booking.domain.theater.usecase.QueryTheaterUseCase;
+import com.datbv.booking.domain.theater.usecase.GetRoomUseCase;
+import com.datbv.booking.domain.theater.usecase.GetTheaterUseCase;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -16,22 +16,22 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class InternalTheaterServiceAdapter implements TheaterServiceAdapter {
 
-    private final QueryRoomUseCase queryRoomUseCase;
-    private final QueryTheaterUseCase queryTheaterUseCase;
+    private final GetRoomUseCase getRoomUseCase;
+    private final GetTheaterUseCase getTheaterUseCase;
 
     @Override
     public Optional<TheaterEntity> getTheaterById(final long id) {
-        return queryTheaterUseCase.getTheaterById(id);
+        return getTheaterUseCase.getTheaterById(id);
     }
 
     @Override
     public List<TheaterEntity> getTheatersByIds(final Collection<Long> ids) {
-        return queryTheaterUseCase.getTheatersByIds(ids);
+        return getTheaterUseCase.getTheatersByIds(ids);
     }
 
     @Override
     public Optional<RoomEntity> getRoomById(final long id) {
-        return queryRoomUseCase.getRoomById(id);
+        return getRoomUseCase.getRoomById(id);
     }
 
     @Override
@@ -39,7 +39,7 @@ public class InternalTheaterServiceAdapter implements TheaterServiceAdapter {
         if (CollectionUtil.isEmpty(ids)) {
             return List.of();
         }
-        return queryRoomUseCase.getRoomsByIds(ids);
+        return getRoomUseCase.getRoomsByIds(ids);
     }
 
 }

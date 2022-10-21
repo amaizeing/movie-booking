@@ -29,4 +29,11 @@ public interface JpaVirtualSeatRepository extends JpaRepository<JpaVirtualSeat, 
             AND s.status = 'AVAILABLE'
             """)
     void reserveSeatsByIds(final Collection<Long> ids);
+
+    @Query("""
+            SELECT x.virtualSeat FROM JpaReservationVirtualSeatXref x
+            WHERE x.reservationId = :reservationId
+            """)
+    List<JpaVirtualSeat> findByReservationId(final long reservationId);
+
 }

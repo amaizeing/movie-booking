@@ -16,12 +16,12 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class CreateUserUserCase {
 
-    private final MutateUserDataGateway mutateUser;
+    private final MutateUserDataGateway userMutation;
 
     private final UserCreatedEventProducer producer;
 
     public UserEntity createUser(final CreateUserRequest request) {
-        val user = mutateUser.createUser(UserEntity.builder()
+        val user = userMutation.createUser(UserEntity.builder()
                 .phoneNumber(request.getPhoneNumber())
                 .fullName(request.getFullName())
                 .email(request.getEmail())

@@ -1,5 +1,6 @@
 package com.datbv.booking.domain.reservation.persistence.entity;
 
+import com.datbv.booking.common.Identifier;
 import com.datbv.booking.persistence.entity.Auditable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,7 +20,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 import static com.datbv.booking.config.Database.Booking.Schema;
 import static com.datbv.booking.config.Database.Booking.Schema.ReservationSchema.Table.Reservation;
@@ -35,7 +36,7 @@ import static com.datbv.booking.config.Database.Booking.Schema.ReservationSchema
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = false)
 @Table(schema = Schema.ReservationSchema.NAME, name = Reservation.NAME)
-public class JpaReservation extends Auditable {
+public class JpaReservation extends Auditable implements Identifier {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,6 +53,6 @@ public class JpaReservation extends Auditable {
     private long userId;
 
     @Column(name = Reservation.Column.BOOKED_TIME, nullable = false)
-    private LocalDateTime bookedTime;
+    private ZonedDateTime bookedTime;
 
 }

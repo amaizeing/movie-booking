@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
-public class QueryRoomUseCase {
+public class GetRoomUseCase {
 
     private final QuerySeatDataGateway seatQuery;
     private final QueryRoomDataGateway roomQuery;

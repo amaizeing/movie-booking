@@ -23,7 +23,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.stream.Collectors;
 
@@ -31,9 +30,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ReserveBookingUseCase {
 
-    private final QueryShowDataGateway queryShow;
-    private final QueryVirtualSeatDataGateway queryVirtualSeat;
-    private final MutateReservationDataGateway mutateReservation;
+    private final QueryShowDataGateway showQuery;
+    private final QueryVirtualSeatDataGateway virtualSeatQuery;
+    private final MutateReservationDataGateway reservationMutation;
 
     private final UserServiceAdapter userServiceAdapter;
     private final MovieServiceAdapter movieServiceAdapter;
@@ -58,23 +57,31 @@ public class ReserveBookingUseCase {
                 .map(ReservationRequest.VirtualSeat::getId)
                 .collect(Collectors.toSet());
 
-        val virtualSeats = queryVirtualSeat.findByIds(virtualSeatIds);
+        val virtualSeats = virtualSeatQuery.findByIds(virtualSeatIds);
+
+        if (virtualSeats.stream().anyMatch(seat -> seat.getShowId() != request.getShowId())) {
+            throw new ApplicationException(new BusinessError(400,
+                    "There is some seats that doesn't belong to this show",
+                    HttpStatusCode.BAD_REQUEST));
+        }
+
         val availableSeatCount = virtualSeats.stream().filter(VirtualSeatEntity::isAvailable).count();
         if (availableSeatCount != virtualSeats.size()) {
             throw new ApplicationException(new BusinessError(400,
-                    "There is some unavailable seat, please check again",
+                    "There is some unavailable seats, please check again",
                     HttpStatusCode.BAD_REQUEST));
         }
 
         val reservation = ReservationEntity.builder()
                 .userId(user.getId())
                 .show(show)
-                .bookedTime(LocalDateTime.now())
+                .bookedTime(ZonedDateTime.now())
                 .virtualSeats(virtualSeats)
                 .build();
 
-        mutateReservation.createReservation(reservation);
+        reservationMutation.createReservation(reservation);
         return ReservationResponse.builder()
+                .id(reservation.getId())
                 .show(ReservationResponse.Show.builder()
                         .description(show.getDescription())
                         .type(show.getType())
@@ -103,7 +110,7 @@ public class ReserveBookingUseCase {
     }
 
     private ShowEntity validateShow(final long showId) {
-        val show = queryShow.findById(showId)
+        val show = showQuery.findById(showId)
                 .orElseThrow(() -> new NotFoundException("Show not found by id:", showId));
 
         val now = ZonedDateTime.now();

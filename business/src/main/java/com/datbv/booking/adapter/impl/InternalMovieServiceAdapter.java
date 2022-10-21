@@ -2,7 +2,7 @@ package com.datbv.booking.adapter.impl;
 
 import com.datbv.booking.adapter.MovieServiceAdapter;
 import com.datbv.booking.domain.movie.entity.MovieEntity;
-import com.datbv.booking.domain.movie.usecase.QueryMovieUseCase;
+import com.datbv.booking.domain.movie.usecase.GetMovieUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -14,16 +14,16 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class InternalMovieServiceAdapter implements MovieServiceAdapter {
 
-    private final QueryMovieUseCase queryMovieUseCase;
+    private final GetMovieUseCase getMovieUseCase;
 
     @Override
     public Optional<MovieEntity> getMovieById(final long id) {
-        return queryMovieUseCase.getMovieById(id);
+        return getMovieUseCase.getMovieById(id);
     }
 
     @Override
     public List<MovieEntity> getMoviesByIds(final Collection<Long> ids) {
-       return queryMovieUseCase.getMoviesByIds(ids);
+       return getMovieUseCase.getMoviesByIds(ids);
     }
 
 }

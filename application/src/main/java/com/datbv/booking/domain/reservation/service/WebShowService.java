@@ -7,7 +7,7 @@ import com.datbv.booking.common.exception.BusinessError;
 import com.datbv.booking.common.exception.NotFoundException;
 import com.datbv.booking.common.http.HttpStatusCode;
 import com.datbv.booking.domain.reservation.usecase.CreateShowUseCase;
-import com.datbv.booking.domain.reservation.usecase.QueryShowUseCase;
+import com.datbv.booking.domain.reservation.usecase.GetShowUseCase;
 import com.datbv.booking.domain.reservation.usecase.request.CreateShowRequest;
 import com.datbv.booking.domain.reservation.web.mapper.WebShowMapper;
 import com.datbv.booking.domain.reservation.web.mapper.WebShowsByMovieMapper;
@@ -28,7 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class WebShowService {
 
-    private final QueryShowUseCase queryShowUseCase;
+    private final GetShowUseCase getShowUseCase;
     private final CreateShowUseCase createShowUseCase;
 
     private final MovieServiceAdapter movieServiceAdapter;
@@ -40,7 +40,7 @@ public class WebShowService {
 
     @Transactional
     public WebShowsByTheater getWebShowsByTheater(final WebShowFilter webShowFilter) {
-        val shows = queryShowUseCase.getAllAvailableShows(webShowFilter.mapToShowFilter());
+        val shows = getShowUseCase.getAllAvailableShows(webShowFilter.mapToShowFilter());
         val theater = theaterServiceAdapter.getTheaterById(webShowFilter.getTheaterId())
                 .orElseThrow(() -> new NotFoundException("Theater not found by id:",
                         webShowFilter.getTheaterId()));
@@ -49,7 +49,7 @@ public class WebShowService {
 
     @Transactional
     public WebShowsByMovie getWebShowsByMovie(final WebShowFilter webShowFilter) {
-        val shows = queryShowUseCase.getAllAvailableShows(webShowFilter.mapToShowFilter());
+        val shows = getShowUseCase.getAllAvailableShows(webShowFilter.mapToShowFilter());
         val movie = movieServiceAdapter.getMovieById(webShowFilter.getMovieId())
                 .orElseThrow(() -> new NotFoundException("Movie not found by id:",
                         webShowFilter.getMovieId()));
@@ -58,7 +58,7 @@ public class WebShowService {
 
     @Transactional
     public WebShow getShowDetail(final long showId) {
-        val show = queryShowUseCase.getShowById(showId)
+        val show = getShowUseCase.getShowById(showId)
                 .orElseThrow(() -> new NotFoundException("Show not found by id:", showId));
 
         val now = ZonedDateTime.now();

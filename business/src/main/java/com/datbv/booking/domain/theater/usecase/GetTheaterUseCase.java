@@ -2,13 +2,14 @@ package com.datbv.booking.domain.theater.usecase;
 
 import com.datbv.booking.domain.theater.entity.TheaterEntity;
 import com.datbv.booking.domain.theater.repository.query.QueryTheaterDataGateway;
+import lombok.RequiredArgsConstructor;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class QueryTheaterUseCase {
+public class GetTheaterUseCase {
 
   private final QueryTheaterDataGateway theaterQuery;
 

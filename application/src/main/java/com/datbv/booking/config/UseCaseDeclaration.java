@@ -4,30 +4,29 @@ import com.datbv.booking.adapter.MovieServiceAdapter;
 import com.datbv.booking.adapter.TheaterServiceAdapter;
 import com.datbv.booking.adapter.UserServiceAdapter;
 import com.datbv.booking.domain.movie.repository.query.QueryMovieDataGateway;
-import com.datbv.booking.domain.movie.usecase.QueryMovieUseCase;
+import com.datbv.booking.domain.movie.usecase.GetMovieUseCase;
 import com.datbv.booking.domain.reservation.repository.command.MutateReservationDataGateway;
+import com.datbv.booking.domain.reservation.repository.query.QueryReservationDataGateway;
 import com.datbv.booking.domain.reservation.repository.query.QueryShowDataGateway;
 import com.datbv.booking.domain.reservation.repository.query.QueryVirtualSeatDataGateway;
 import com.datbv.booking.domain.reservation.usecase.CreateShowUseCase;
-import com.datbv.booking.domain.reservation.usecase.QueryShowUseCase;
+import com.datbv.booking.domain.reservation.usecase.GetReservationUseCase;
+import com.datbv.booking.domain.reservation.usecase.GetShowUseCase;
 import com.datbv.booking.domain.reservation.usecase.ReserveBookingUseCase;
 import com.datbv.booking.domain.theater.repository.query.QueryRoomDataGateway;
 import com.datbv.booking.domain.theater.repository.query.QuerySeatDataGateway;
 import com.datbv.booking.domain.theater.repository.query.QueryTheaterDataGateway;
-import com.datbv.booking.domain.theater.usecase.QueryRoomUseCase;
-import com.datbv.booking.domain.theater.usecase.QueryTheaterUseCase;
+import com.datbv.booking.domain.theater.usecase.GetRoomUseCase;
+import com.datbv.booking.domain.theater.usecase.GetTheaterUseCase;
 import com.datbv.booking.domain.user.out.UserCreatedEventProducer;
 import com.datbv.booking.domain.user.repository.command.MutateUserDataGateway;
 import com.datbv.booking.domain.user.repository.query.QueryUserDataGateway;
 import com.datbv.booking.domain.user.usecase.CreateUserUserCase;
 import com.datbv.booking.domain.user.usecase.GetUserUseCase;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 class UseCaseDeclaration {
 
     @Configuration
@@ -52,8 +51,8 @@ class UseCaseDeclaration {
     static class MovieDomain {
 
         @Bean
-        QueryMovieUseCase queryMovieUseCase(final QueryMovieDataGateway queryMovieDataGateway) {
-            return new QueryMovieUseCase(queryMovieDataGateway);
+        GetMovieUseCase getMovieUseCase(final QueryMovieDataGateway queryMovieDataGateway) {
+            return new GetMovieUseCase(queryMovieDataGateway);
         }
 
     }
@@ -63,16 +62,16 @@ class UseCaseDeclaration {
     static class TheaterDomain {
 
         @Bean
-        QueryRoomUseCase queryRoomUseCase(
+        GetRoomUseCase getRoomUseCase(
                 final QuerySeatDataGateway querySeatDataGateway,
                 final QueryRoomDataGateway queryRoomDataGateway) {
-            return new QueryRoomUseCase(querySeatDataGateway, queryRoomDataGateway);
+            return new GetRoomUseCase(querySeatDataGateway, queryRoomDataGateway);
         }
 
         @Bean
-        QueryTheaterUseCase queryTheaterUseCase(
+        GetTheaterUseCase getTheaterUseCase(
                 final QueryTheaterDataGateway queryTheaterDataGateway) {
-            return new QueryTheaterUseCase(queryTheaterDataGateway);
+            return new GetTheaterUseCase(queryTheaterDataGateway);
         }
 
     }
@@ -82,12 +81,12 @@ class UseCaseDeclaration {
     static class ReservationDomain {
 
         @Bean
-        QueryShowUseCase querySlotUseCase(
+        GetShowUseCase querySlotUseCase(
                 final QueryShowDataGateway queryShowDataGateway,
                 final QueryVirtualSeatDataGateway queryVirtualSeatDataGateway,
                 final MovieServiceAdapter movieServiceAdapter,
                 final TheaterServiceAdapter theaterServiceAdapter) {
-            return new QueryShowUseCase(
+            return new GetShowUseCase(
                     queryShowDataGateway,
                     queryVirtualSeatDataGateway,
                     movieServiceAdapter,
@@ -104,6 +103,14 @@ class UseCaseDeclaration {
                 final TheaterServiceAdapter theaterServiceAdapter) {
             return new ReserveBookingUseCase(queryShow, queryVirtualSeat, mutateReservation,
                     userServiceAdapter, movieServiceAdapter, theaterServiceAdapter);
+        }
+
+        @Bean
+        GetReservationUseCase getReservationUseCase(
+                final QueryReservationDataGateway reservationQuery,
+                final MovieServiceAdapter movieServiceAdapter,
+                final TheaterServiceAdapter theaterServiceAdapter) {
+            return new GetReservationUseCase(reservationQuery, movieServiceAdapter, theaterServiceAdapter);
         }
 
         @Bean

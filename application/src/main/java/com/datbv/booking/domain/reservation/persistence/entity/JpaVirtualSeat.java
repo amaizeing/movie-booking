@@ -1,5 +1,6 @@
 package com.datbv.booking.domain.reservation.persistence.entity;
 
+import com.datbv.booking.common.Identifier;
 import com.datbv.booking.domain.reservation.entity.VirtualSeatEntity;
 import com.datbv.booking.domain.theater.entity.PhysicalSeatEntity;
 import com.datbv.booking.persistence.entity.Auditable;
@@ -37,7 +38,7 @@ import static com.datbv.booking.config.Database.Booking.Schema.ReservationSchema
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = false)
 @Table(schema = Schema.ReservationSchema.NAME, name = VirtualSeat.NAME)
-public class JpaVirtualSeat extends Auditable {
+public class JpaVirtualSeat extends Auditable implements Identifier {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

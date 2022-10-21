@@ -14,14 +14,15 @@ import com.datbv.booking.domain.reservation.usecase.request.ShowFilter;
 import com.datbv.booking.domain.reservation.usecase.response.ShowAggregate;
 import com.datbv.booking.domain.theater.entity.RoomEntity;
 import com.datbv.booking.domain.theater.entity.TheaterEntity;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
 @RequiredArgsConstructor
-public class QueryShowUseCase {
+public class GetShowUseCase {
 
     private final QueryShowDataGateway showQuery;
     private final QueryVirtualSeatDataGateway virtualSeatQuery;

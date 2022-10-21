@@ -11,9 +11,9 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class GetUserUseCase {
 
-    private final QueryUserDataGateway queryUser;
+    private final QueryUserDataGateway userQuery;
 
     public Optional<UserEntity> getUserByPhoneNumber(final String phoneNumber) {
-        return queryUser.findUserByPhoneNumber(phoneNumber);
+        return userQuery.findUserByPhoneNumber(phoneNumber);
     }
 }
