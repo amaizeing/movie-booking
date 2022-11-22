@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-public interface QueryMovieDataGateway {
+public interface QueryMovieGateway {
 
     Optional<MovieEntity> findById(final long id);
 

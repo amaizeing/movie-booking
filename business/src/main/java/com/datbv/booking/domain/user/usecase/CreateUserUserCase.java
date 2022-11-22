@@ -3,7 +3,7 @@ package com.datbv.booking.domain.user.usecase;
 import com.datbv.booking.domain.user.entity.UserEntity;
 import com.datbv.booking.domain.user.event.UserCreatedEvent;
 import com.datbv.booking.domain.user.out.UserCreatedEventProducer;
-import com.datbv.booking.domain.user.repository.command.MutateUserDataGateway;
+import com.datbv.booking.domain.user.repository.command.MutateUserGateway;
 import com.datbv.booking.domain.user.usecase.message.CreateUserRequest;
 import com.datbv.booking.event.EventFactory;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class CreateUserUserCase {
 
-    private final MutateUserDataGateway userMutation;
+    private final MutateUserGateway userMutation;
 
     private final UserCreatedEventProducer producer;
 
@@ -39,7 +39,8 @@ public class CreateUserUserCase {
                 .build();
         val eventData = EventFactory.data(event)
                 .to("user.created")
-                .onSuccess(() -> log.info("Producing {} event successful", event.getEvent()));
+                .onSuccess(() -> log.info("Producing {} event successful", event.getEvent()))
+                .onFailure(ex -> log.error("Exception while producing event", ex));
         producer.produce(eventData);
     }
 

@@ -2,14 +2,12 @@ package com.datbv.booking.domain.reservation.usecase;
 
 import com.datbv.booking.adapter.MovieServiceAdapter;
 import com.datbv.booking.adapter.TheaterServiceAdapter;
-import com.datbv.booking.common.exception.ApplicationException;
-import com.datbv.booking.common.exception.Errors;
 import com.datbv.booking.common.util.CollectionUtil;
 import com.datbv.booking.domain.movie.entity.MovieEntity;
 import com.datbv.booking.domain.reservation.entity.ShowEntity;
 import com.datbv.booking.domain.reservation.entity.VirtualSeatEntity;
-import com.datbv.booking.domain.reservation.repository.query.QueryShowDataGateway;
-import com.datbv.booking.domain.reservation.repository.query.QueryVirtualSeatDataGateway;
+import com.datbv.booking.domain.reservation.repository.query.QueryShowGateway;
+import com.datbv.booking.domain.reservation.repository.query.QueryVirtualSeatGateway;
 import com.datbv.booking.domain.reservation.usecase.request.ShowFilter;
 import com.datbv.booking.domain.reservation.usecase.response.ShowAggregate;
 import com.datbv.booking.domain.theater.entity.RoomEntity;
@@ -24,8 +22,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class GetShowUseCase {
 
-    private final QueryShowDataGateway showQuery;
-    private final QueryVirtualSeatDataGateway virtualSeatQuery;
+    private final QueryShowGateway showQuery;
+    private final QueryVirtualSeatGateway virtualSeatQuery;
 
     private final MovieServiceAdapter movieServiceAdapter;
     private final TheaterServiceAdapter theaterServiceAdapter;
@@ -37,12 +35,9 @@ public class GetShowUseCase {
         }
 
         val show = showOpt.get();
-        val movie = movieServiceAdapter.getMovieById(show.getMovieId())
-                .orElseThrow(() -> new ApplicationException(Errors.DATA_INCONSISTENCY));
-        val room = theaterServiceAdapter.getRoomById(show.getRoomId())
-                .orElseThrow(() -> new ApplicationException(Errors.DATA_INCONSISTENCY));
-        val theater = theaterServiceAdapter.getTheaterById(show.getTheaterId())
-                .orElseThrow(() -> new ApplicationException(Errors.DATA_INCONSISTENCY));
+        val movie = movieServiceAdapter.getMovieById(show.getMovieId());
+        val room = theaterServiceAdapter.getRoomById(show.getRoomId());
+        val theater = theaterServiceAdapter.getTheaterById(show.getTheaterId());
         val seats = virtualSeatQuery.findByShowId(show.getId());
 
         val showAggregate = ShowAggregate.builder()

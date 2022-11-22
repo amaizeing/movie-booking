@@ -5,7 +5,7 @@ import com.datbv.booking.adapter.TheaterServiceAdapter;
 import com.datbv.booking.domain.movie.entity.MovieEntity;
 import com.datbv.booking.domain.reservation.entity.ReservationEntity;
 import com.datbv.booking.domain.reservation.entity.ShowEntity;
-import com.datbv.booking.domain.reservation.repository.query.QueryReservationDataGateway;
+import com.datbv.booking.domain.reservation.repository.query.QueryReservationGateway;
 import com.datbv.booking.domain.reservation.usecase.request.ReservationFilter;
 import com.datbv.booking.domain.reservation.usecase.response.ReservationResponse;
 import com.datbv.booking.domain.theater.entity.RoomEntity;
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class GetReservationUseCase {
 
-    private final QueryReservationDataGateway reservationQuery;
+    private final QueryReservationGateway reservationQuery;
     private final MovieServiceAdapter movieServiceAdapter;
     private final TheaterServiceAdapter theaterServiceAdapter;
 

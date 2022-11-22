@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -17,8 +16,8 @@ public class InternalMovieServiceAdapter implements MovieServiceAdapter {
     private final GetMovieUseCase getMovieUseCase;
 
     @Override
-    public Optional<MovieEntity> getMovieById(final long id) {
-        return getMovieUseCase.getMovieById(id);
+    public MovieEntity getMovieById(final long id) {
+        return getMovieUseCase.getMovieById(id).orElse(null);
     }
 
     @Override

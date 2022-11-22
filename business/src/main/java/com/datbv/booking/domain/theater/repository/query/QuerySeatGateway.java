@@ -4,7 +4,7 @@ import com.datbv.booking.domain.theater.entity.PhysicalSeatEntity;
 
 import java.util.List;
 
-public interface QuerySeatDataGateway {
+public interface QuerySeatGateway {
 
     List<PhysicalSeatEntity> findByRoomId(long roomId);
 

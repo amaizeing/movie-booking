@@ -5,9 +5,12 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-public interface QueryTheaterDataGateway {
+public interface QueryTheaterGateway {
 
   Optional<TheaterEntity> findById(final long id);
 
   List<TheaterEntity> findByIds(final Collection<Long> ids);
+
+    List<TheaterEntity> findAll();
+
 }

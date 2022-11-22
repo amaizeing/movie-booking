@@ -1,7 +1,7 @@
 package com.datbv.booking.domain.movie.usecase;
 
 import com.datbv.booking.domain.movie.entity.MovieEntity;
-import com.datbv.booking.domain.movie.repository.query.QueryMovieDataGateway;
+import com.datbv.booking.domain.movie.repository.query.QueryMovieGateway;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Collection;
@@ -11,7 +11,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class GetMovieUseCase {
 
-    private final QueryMovieDataGateway movieQuery;
+    private final QueryMovieGateway movieQuery;
 
     public Optional<MovieEntity> getMovieById(final long id) {
         return movieQuery.findById(id);

@@ -2,8 +2,8 @@ package com.datbv.booking.domain.theater.usecase;
 
 import com.datbv.booking.domain.theater.dto.RoomAggregate;
 import com.datbv.booking.domain.theater.entity.RoomEntity;
-import com.datbv.booking.domain.theater.repository.query.QueryRoomDataGateway;
-import com.datbv.booking.domain.theater.repository.query.QuerySeatDataGateway;
+import com.datbv.booking.domain.theater.repository.query.QueryRoomGateway;
+import com.datbv.booking.domain.theater.repository.query.QuerySeatGateway;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 
@@ -14,8 +14,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class GetRoomUseCase {
 
-    private final QuerySeatDataGateway seatQuery;
-    private final QueryRoomDataGateway roomQuery;
+    private final QuerySeatGateway seatQuery;
+    private final QueryRoomGateway roomQuery;
 
     public Optional<RoomAggregate> getRoomWithAllSeatsById(final long roomId) {
         val roomOpt = roomQuery.findById(roomId);

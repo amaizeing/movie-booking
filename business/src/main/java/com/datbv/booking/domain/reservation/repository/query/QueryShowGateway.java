@@ -6,7 +6,7 @@ import com.datbv.booking.domain.reservation.usecase.request.ShowFilter;
 import java.util.List;
 import java.util.Optional;
 
-public interface QueryShowDataGateway {
+public interface QueryShowGateway {
 
     List<ShowEntity> findAllAvailableShows(final ShowFilter filter);
 

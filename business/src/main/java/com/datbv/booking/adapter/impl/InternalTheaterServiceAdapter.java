@@ -6,11 +6,11 @@ import com.datbv.booking.domain.theater.entity.RoomEntity;
 import com.datbv.booking.domain.theater.entity.TheaterEntity;
 import com.datbv.booking.domain.theater.usecase.GetRoomUseCase;
 import com.datbv.booking.domain.theater.usecase.GetTheaterUseCase;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.Collection;
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -20,8 +20,8 @@ public class InternalTheaterServiceAdapter implements TheaterServiceAdapter {
     private final GetTheaterUseCase getTheaterUseCase;
 
     @Override
-    public Optional<TheaterEntity> getTheaterById(final long id) {
-        return getTheaterUseCase.getTheaterById(id);
+    public TheaterEntity getTheaterById(final long id) {
+        return getTheaterUseCase.getTheaterById(id).orElse(null);
     }
 
     @Override
@@ -30,8 +30,8 @@ public class InternalTheaterServiceAdapter implements TheaterServiceAdapter {
     }
 
     @Override
-    public Optional<RoomEntity> getRoomById(final long id) {
-        return getRoomUseCase.getRoomById(id);
+    public RoomEntity getRoomById(final long id) {
+        return getRoomUseCase.getRoomById(id).orElse(null);
     }
 
     @Override

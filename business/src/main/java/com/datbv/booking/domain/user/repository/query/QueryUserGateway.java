@@ -4,7 +4,7 @@ import com.datbv.booking.domain.user.entity.UserEntity;
 
 import java.util.Optional;
 
-public interface QueryUserDataGateway {
+public interface QueryUserGateway {
 
     Optional<UserEntity> findUserByPhoneNumber(final String phoneNumber);
 }

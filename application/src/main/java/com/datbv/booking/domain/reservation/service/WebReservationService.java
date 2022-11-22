@@ -15,6 +15,8 @@ import lombok.val;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -32,7 +34,7 @@ public class WebReservationService {
 
     @Transactional
     public WebReservations getReservations(final WebReservationFilter filter) {
-        val user = userServiceAdapter.getUserByPhoneNumber(filter.getPhoneNumber())
+        val user = Optional.ofNullable(userServiceAdapter.getUserByPhoneNumber(filter.getPhoneNumber()))
                 .orElseThrow(() -> new NotFoundException("User not found by phoneNumber: ***"));
         val reservationFilter = ReservationFilter.builder()
                 .userId(user.getId())

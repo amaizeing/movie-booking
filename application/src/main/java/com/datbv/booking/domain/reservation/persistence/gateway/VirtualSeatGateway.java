@@ -6,7 +6,7 @@ import com.datbv.booking.domain.reservation.persistence.config.DataGateway;
 import com.datbv.booking.domain.reservation.persistence.entity.JpaVirtualSeat;
 import com.datbv.booking.domain.reservation.persistence.mapper.PersistenceVirtualSeatMapper;
 import com.datbv.booking.domain.reservation.persistence.repository.JpaVirtualSeatRepository;
-import com.datbv.booking.domain.reservation.repository.query.QueryVirtualSeatDataGateway;
+import com.datbv.booking.domain.reservation.repository.query.QueryVirtualSeatGateway;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @DataGateway
 @RequiredArgsConstructor
-public class VirtualSeatDataGateway implements QueryVirtualSeatDataGateway {
+public class VirtualSeatGateway implements QueryVirtualSeatGateway {
 
     private final JpaVirtualSeatRepository virtualSeatRepository;
 

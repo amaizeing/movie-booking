@@ -7,8 +7,6 @@ import com.datbv.booking.domain.user.usecase.GetUserUseCase;
 import com.datbv.booking.domain.user.usecase.message.CreateUserRequest;
 import lombok.RequiredArgsConstructor;
 
-import java.util.Optional;
-
 @RequiredArgsConstructor
 public class InternalUserServiceAdapter implements UserServiceAdapter {
 
@@ -16,8 +14,8 @@ public class InternalUserServiceAdapter implements UserServiceAdapter {
     private final CreateUserUserCase createUserUserCase;
 
     @Override
-    public Optional<UserEntity> getUserByPhoneNumber(final String phoneNumber) {
-        return getUserUseCase.getUserByPhoneNumber(phoneNumber);
+    public UserEntity getUserByPhoneNumber(final String phoneNumber) {
+        return getUserUseCase.getUserByPhoneNumber(phoneNumber).orElse(null);
     }
 
     @Override

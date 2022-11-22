@@ -11,8 +11,8 @@ import com.datbv.booking.domain.reservation.persistence.repository.JpaReservatio
 import com.datbv.booking.domain.reservation.persistence.repository.JpaReservationVirtualSeatXrefRepository;
 import com.datbv.booking.domain.reservation.persistence.repository.JpaShowRepository;
 import com.datbv.booking.domain.reservation.persistence.repository.JpaVirtualSeatRepository;
-import com.datbv.booking.domain.reservation.repository.command.MutateReservationDataGateway;
-import com.datbv.booking.domain.reservation.repository.query.QueryReservationDataGateway;
+import com.datbv.booking.domain.reservation.repository.command.MutateReservationGateway;
+import com.datbv.booking.domain.reservation.repository.query.QueryReservationGateway;
 import com.datbv.booking.domain.reservation.usecase.request.ReservationFilter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @DataGateway
 @RequiredArgsConstructor
-public class ReservationDataGateway implements MutateReservationDataGateway, QueryReservationDataGateway {
+public class ReservationGateway implements MutateReservationGateway, QueryReservationGateway {
 
     private final JpaShowRepository showRepository;
     private final JpaReservationRepository reservationRepository;
@@ -51,14 +51,17 @@ public class ReservationDataGateway implements MutateReservationDataGateway, Que
 
         virtualSeatRepository.reserveSeatsByIds(virtualSeatIds);
 
-        val xref = virtualSeatIds.stream().map(id -> JpaReservationVirtualSeatXref.builder()
+        val xref = virtualSeatIds.stream()
+                .map(id -> JpaReservationVirtualSeatXref.builder()
                         .reservation(reservation)
                         .virtualSeat(virtualSeatRepository.getReferenceById(id))
                         .build())
                 .collect(Collectors.toSet());
         reservationVirtualSeatXrefRepository.saveAll(xref);
 
-        reservationEntity.getVirtualSeats().forEach(seat -> seat.setStatus(VirtualSeatEntity.Status.BOOKED));
+        reservationEntity.setId(reservation.getId())
+                .setBookedTime(reservation.getBookedTime())
+                .getVirtualSeats().forEach(seat -> seat.setStatus(VirtualSeatEntity.Status.BOOKED));
         return reservationEntity;
     }
 

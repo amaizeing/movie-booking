@@ -5,7 +5,7 @@ import com.datbv.booking.domain.reservation.usecase.request.ReservationFilter;
 
 import java.util.List;
 
-public interface QueryReservationDataGateway {
+public interface QueryReservationGateway {
 
     List<ReservationEntity> findReservationsByFilter(final ReservationFilter filter);
 

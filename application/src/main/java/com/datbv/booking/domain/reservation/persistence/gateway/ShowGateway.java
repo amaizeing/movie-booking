@@ -4,7 +4,7 @@ import com.datbv.booking.domain.reservation.entity.ShowEntity;
 import com.datbv.booking.domain.reservation.persistence.config.DataGateway;
 import com.datbv.booking.domain.reservation.persistence.mapper.PersistenceShowMapper;
 import com.datbv.booking.domain.reservation.persistence.repository.JpaShowRepository;
-import com.datbv.booking.domain.reservation.repository.query.QueryShowDataGateway;
+import com.datbv.booking.domain.reservation.repository.query.QueryShowGateway;
 import com.datbv.booking.domain.reservation.usecase.request.ShowFilter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +16,7 @@ import java.util.Optional;
 @Slf4j
 @DataGateway
 @RequiredArgsConstructor
-public class ShowDataGateway implements QueryShowDataGateway {
+public class ShowGateway implements QueryShowGateway {
 
     private final JpaShowRepository showRepository;
 

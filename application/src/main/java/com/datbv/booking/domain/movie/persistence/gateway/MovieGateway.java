@@ -4,7 +4,7 @@ import com.datbv.booking.common.util.CollectionUtil;
 import com.datbv.booking.domain.movie.entity.MovieEntity;
 import com.datbv.booking.domain.movie.persistence.mapper.PersistenceMovieMapper;
 import com.datbv.booking.domain.movie.persistence.repository.JpaMovieRepository;
-import com.datbv.booking.domain.movie.repository.query.QueryMovieDataGateway;
+import com.datbv.booking.domain.movie.repository.query.QueryMovieGateway;
 import com.datbv.booking.domain.reservation.persistence.config.DataGateway;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +16,7 @@ import java.util.Optional;
 @Slf4j
 @DataGateway
 @RequiredArgsConstructor
-public class MovieDataGateway implements QueryMovieDataGateway {
+public class MovieGateway implements QueryMovieGateway {
 
     private final JpaMovieRepository movieRepository;
 

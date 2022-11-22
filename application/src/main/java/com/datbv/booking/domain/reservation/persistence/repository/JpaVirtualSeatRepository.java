@@ -15,7 +15,7 @@ public interface JpaVirtualSeatRepository extends JpaRepository<JpaVirtualSeat, 
     @Query("SELECT s FROM JpaVirtualSeat s WHERE s.id IN :ids")
     List<JpaVirtualSeat> findByIds(final Collection<Long> ids);
 
-    @Query("SELECT s FROM JpaVirtualSeat s WHERE s.showId = :showId")
+    @Query("SELECT s FROM JpaVirtualSeat s WHERE s.showId = :showId ORDER BY s.seatCode")
     List<JpaVirtualSeat> findByShowId(final long showId);
 
     @Query("SELECT s FROM JpaVirtualSeat s WHERE s.showId IN :showIds")

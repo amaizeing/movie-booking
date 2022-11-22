@@ -16,12 +16,14 @@ import com.datbv.booking.domain.reservation.web.message.request.WebShowFilter;
 import com.datbv.booking.domain.reservation.web.message.response.web.WebShow;
 import com.datbv.booking.domain.reservation.web.message.response.web.WebShowsByMovie;
 import com.datbv.booking.domain.reservation.web.message.response.web.WebShowsByTheater;
-import java.time.ZonedDateTime;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.ZonedDateTime;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -41,7 +43,7 @@ public class WebShowService {
     @Transactional
     public WebShowsByTheater getWebShowsByTheater(final WebShowFilter webShowFilter) {
         val shows = getShowUseCase.getAllAvailableShows(webShowFilter.mapToShowFilter());
-        val theater = theaterServiceAdapter.getTheaterById(webShowFilter.getTheaterId())
+        val theater = Optional.ofNullable(theaterServiceAdapter.getTheaterById(webShowFilter.getTheaterId()))
                 .orElseThrow(() -> new NotFoundException("Theater not found by id:",
                         webShowFilter.getTheaterId()));
         return webShowsByTheaterMapper.mapToWebShowsByTheater(theater, shows);
@@ -50,9 +52,8 @@ public class WebShowService {
     @Transactional
     public WebShowsByMovie getWebShowsByMovie(final WebShowFilter webShowFilter) {
         val shows = getShowUseCase.getAllAvailableShows(webShowFilter.mapToShowFilter());
-        val movie = movieServiceAdapter.getMovieById(webShowFilter.getMovieId())
-                .orElseThrow(() -> new NotFoundException("Movie not found by id:",
-                        webShowFilter.getMovieId()));
+        val movie = Optional.ofNullable(movieServiceAdapter.getMovieById(webShowFilter.getMovieId()))
+                .orElseThrow(() -> new NotFoundException("Movie not found by id:", webShowFilter.getMovieId()));
         return webShowsByMovieMapper.mapToWebShowsByMovie(movie, shows);
     }
 
